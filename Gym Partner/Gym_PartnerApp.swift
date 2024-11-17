@@ -13,9 +13,14 @@ struct Gym_PartnerApp: App {
     // SwiftData ModelContainer
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
-            Item.self, // Register our Item model in the schema
+            Item.self // Register our Item model in the schema
         ])
-        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
+
+        // Configure the ModelContainer
+        let modelConfiguration = ModelConfiguration(
+            schema: schema, // First argument
+            isStoredInMemoryOnly: false // Persistent storage
+        )
 
         do {
             return try ModelContainer(for: schema, configurations: [modelConfiguration])

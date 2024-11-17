@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CC2809FD2CE9A9E8001DF844 /* WelcomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC2809FC2CE9A9E8001DF844 /* WelcomeScreen.swift */; };
+		CC2809FF2CE9A9F7001DF844 /* ReturnScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC2809FE2CE9A9F7001DF844 /* ReturnScreen.swift */; };
 		CCB7BCC02CE9713F00A420F4 /* ProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCB7BCBF2CE9713F00A420F4 /* ProgressView.swift */; };
 		CCE1647F2CE9611A00602A42 /* Gym_PartnerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCE1647E2CE9611A00602A42 /* Gym_PartnerApp.swift */; };
 		CCE164812CE9611A00602A42 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCE164802CE9611A00602A42 /* ContentView.swift */; };
@@ -38,6 +40,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		CC2809FC2CE9A9E8001DF844 /* WelcomeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeScreen.swift; sourceTree = "<group>"; };
+		CC2809FE2CE9A9F7001DF844 /* ReturnScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReturnScreen.swift; sourceTree = "<group>"; };
 		CCB7BCBF2CE9713F00A420F4 /* ProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressView.swift; sourceTree = "<group>"; };
 		CCE1647B2CE9611A00602A42 /* Gym Partner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Gym Partner.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CCE1647E2CE9611A00602A42 /* Gym_PartnerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gym_PartnerApp.swift; sourceTree = "<group>"; };
@@ -110,6 +114,8 @@
 				CCE164AA2CE9677500602A42 /* AddLogView.swift */,
 				CCE164AC2CE9691E00602A42 /* WorkoutDetailView.swift */,
 				CCB7BCBF2CE9713F00A420F4 /* ProgressView.swift */,
+				CC2809FC2CE9A9E8001DF844 /* WelcomeScreen.swift */,
+				CC2809FE2CE9A9F7001DF844 /* ReturnScreen.swift */,
 			);
 			path = "Gym Partner";
 			sourceTree = "<group>";
@@ -273,6 +279,8 @@
 				CCE164AD2CE9691E00602A42 /* WorkoutDetailView.swift in Sources */,
 				CCE164AB2CE9677500602A42 /* AddLogView.swift in Sources */,
 				CCE164832CE9611A00602A42 /* Item.swift in Sources */,
+				CC2809FD2CE9A9E8001DF844 /* WelcomeScreen.swift in Sources */,
+				CC2809FF2CE9A9F7001DF844 /* ReturnScreen.swift in Sources */,
 				CCE1647F2CE9611A00602A42 /* Gym_PartnerApp.swift in Sources */,
 				CCB7BCC02CE9713F00A420F4 /* ProgressView.swift in Sources */,
 			);

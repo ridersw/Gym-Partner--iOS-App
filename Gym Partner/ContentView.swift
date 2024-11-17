@@ -10,91 +10,111 @@ struct ContentView: View {
 
     var body: some View {
         NavigationView {
-            VStack(alignment: .leading, spacing: 20) {
-            
-                // Header
-                Text("Workout Log")
-                    .font(.largeTitle)
-                    .bold()
-                    .foregroundColor(.purple)
-                    .padding(.horizontal)
-                    .padding(.top)
+            ZStack {
+                // Background Gradient
+                LinearGradient(
+                    gradient: Gradient(colors: [Color.black, Color.purple.opacity(0.8)]),
+                    startPoint: .top, endPoint: .bottom
+                )
+                .ignoresSafeArea()
 
-                // Statistics Section
-                HStack(spacing: 16) {
-                    StatCard(title: "Volume", value: "\(calculateTotalVolume()) kg", icon: "chart.bar.fill", color: .green)
-                    StatCard(title: "Best", value: "\(calculateBestWeight()) kg", icon: "trophy.fill", color: .yellow)
-                }
-                .padding(.horizontal)
-
-                // View Progress Button
-                NavigationLink(destination: ProgressView(exerciseName: selectedExercise, logs: items)) {
-                    Text("View Progress")
-                        .font(.headline)
+                VStack(alignment: .leading, spacing: 20) {
+                    // Header with Gradient Text
+                    Text("Workout Log")
+                        .font(.largeTitle)
                         .bold()
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Color.blue)
-                        .foregroundColor(.white)
-                        .cornerRadius(8)
-                }
-                .padding(.horizontal)
+                        .foregroundStyle(
+                            LinearGradient(gradient: Gradient(colors: [.purple, .pink]),
+                                           startPoint: .topLeading, endPoint: .bottomTrailing)
+                        )
+                        .shadow(color: .pink.opacity(0.4), radius: 5, x: 0, y: 5)
+                        .padding(.horizontal)
+                        .padding(.top)
 
-                // Dropdown Selector
-                Picker("Exercise", selection: $selectedExercise) {
-                    ForEach(allExercises, id: \.self) { exercise in
-                        Text(exercise)
+                    // Statistics Section with Glassmorphism
+                    HStack(spacing: 16) {
+                        StatCard(title: "Volume", value: "\(calculateTotalVolume()) kg", icon: "chart.bar.fill", gradient: Gradient(colors: [Color.green.opacity(0.8), Color.green]))
+                        StatCard(title: "Best", value: "\(calculateBestWeight()) kg", icon: "trophy.fill", gradient: Gradient(colors: [Color.yellow.opacity(0.8), Color.orange]))
                     }
-                }
-                .pickerStyle(.menu)
-                .padding(.horizontal)
-                .background(RoundedRectangle(cornerRadius: 8).fill(Color.gray.opacity(0.2)))
-                .padding(.horizontal)
+                    .padding(.horizontal)
 
-                // Sessions List
-                List {
-                    // Today's Sessions
-                    let todayLogs = filterLogs(for: selectedExercise, date: Date())
-                    if !todayLogs.isEmpty {
-                        Section(header: Text("Today")) {
-                            ForEach(todayLogs) { log in
-                                NavigationLink(destination: WorkoutDetailView(item: log, logs: items)) {
-                                    SessionCard(log: log, time: log.timestamp.formatted(date: .omitted, time: .shortened))
-                                }
-                            }
-                            .onDelete(perform: { offsets in
-                                deleteItems(offsets: offsets, from: todayLogs)
-                            })
+                    // View Progress Button
+                    NavigationLink(destination: ProgressView(exerciseName: selectedExercise, logs: items)) {
+                        Text("View Progress")
+                            .font(.headline)
+                            .bold()
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(
+                                LinearGradient(
+                                    gradient: Gradient(colors: [.blue, .purple]),
+                                    startPoint: .leading,
+                                    endPoint: .trailing
+                                )
+                            )
+                            .foregroundColor(.white)
+                            .cornerRadius(12)
+                            .shadow(color: .blue.opacity(0.6), radius: 8, x: 0, y: 5)
+                            .hoverEffect(.highlight)
+                    }
+                    .padding(.horizontal)
+
+                    // Dropdown Selector for Exercises
+                    Picker("Exercise", selection: $selectedExercise) {
+                        ForEach(allExercises, id: \.self) { exercise in
+                            Text(exercise)
                         }
                     }
+                    .pickerStyle(.menu)
+                    .padding(.horizontal)
+                    .background(RoundedRectangle(cornerRadius: 8).fill(Color.gray.opacity(0.2)))
+                    .padding(.horizontal)
 
-                    // Previous Sessions
-                    let previousLogs = filterLogs(for: selectedExercise, date: nil, excludeToday: true)
-                    if !previousLogs.isEmpty {
-                        Section(header: Text("Previous")) {
-                            ForEach(previousLogs) { log in
-                                NavigationLink(destination: WorkoutDetailView(item: log, logs: items)) {
-                                    SessionCard(log: log, time: log.timestamp.formatted(date: .abbreviated, time: .omitted))
+                    // Sessions List
+                    List {
+                        // Today's Sessions
+                        let todayLogs = filterLogs(for: selectedExercise, date: Date())
+                        if !todayLogs.isEmpty {
+                            Section(header: Text("Today")) {
+                                ForEach(todayLogs) { log in
+                                    NavigationLink(destination: WorkoutDetailView(item: log, logs: items)) {
+                                        SessionCard(log: log, time: log.timestamp.formatted(date: .omitted, time: .shortened))
+                                    }
                                 }
+                                .onDelete(perform: { offsets in
+                                    deleteItems(offsets: offsets, from: todayLogs)
+                                })
                             }
-                            .onDelete(perform: { offsets in
-                                deleteItems(offsets: offsets, from: previousLogs)
-                            })
+                        }
+
+                        // Previous Sessions
+                        let previousLogs = filterLogs(for: selectedExercise, date: nil, excludeToday: true)
+                        if !previousLogs.isEmpty {
+                            Section(header: Text("Previous")) {
+                                ForEach(previousLogs) { log in
+                                    NavigationLink(destination: WorkoutDetailView(item: log, logs: items)) {
+                                        SessionCard(log: log, time: log.timestamp.formatted(date: .abbreviated, time: .omitted))
+                                    }
+                                }
+                                .onDelete(perform: { offsets in
+                                    deleteItems(offsets: offsets, from: previousLogs)
+                                })
+                            }
                         }
                     }
+                    .listStyle(InsetGroupedListStyle())
                 }
-                .listStyle(InsetGroupedListStyle())
-            }
-            .onAppear {
-                loadUniqueExercises()
-            }
-            .navigationTitle("")
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    NavigationLink(destination: AddLogView()) {
-                        Image(systemName: "plus")
-                            .font(.title)
-                            .foregroundColor(.purple)
+                .onAppear {
+                    loadUniqueExercises()
+                }
+                .navigationTitle("")
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        NavigationLink(destination: AddLogView()) {
+                            Image(systemName: "plus")
+                                .font(.title)
+                                .foregroundColor(.purple)
+                        }
                     }
                 }
             }
@@ -150,33 +170,39 @@ struct ContentView: View {
     }
 }
 
-// MARK: - Custom Views
-
-/// A card displaying workout stats like volume and best weight
+// MARK: - Stat Card with Glassmorphism
 struct StatCard: View {
     let title: String
     let value: String
     let icon: String
-    let color: Color
+    let gradient: Gradient
 
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
                 Image(systemName: icon)
-                    .foregroundColor(color) // Icon with the specified color
+                    .font(.title)
+                    .foregroundStyle(
+                        LinearGradient(gradient: gradient, startPoint: .topLeading, endPoint: .bottomTrailing)
+                    )
                 Spacer()
             }
             Text(value)
-                .font(.largeTitle)
-                .bold()
-                .foregroundColor(color) // Stat value with the specified color
+                .font(.title)
+                .fontWeight(.bold)
+                .foregroundStyle(
+                    LinearGradient(gradient: gradient, startPoint: .topLeading, endPoint: .bottomTrailing)
+                )
             Text(title)
-                .font(.headline)
-                .foregroundColor(.secondary) // Subtle title text
+                .font(.subheadline)
+                .foregroundColor(.secondary)
         }
         .padding()
-        .frame(maxWidth: .infinity) // Ensures it stretches to fit available space
-        .background(RoundedRectangle(cornerRadius: 12).fill(Color(.secondarySystemBackground)))
+        .background(
+            RoundedRectangle(cornerRadius: 15)
+                .fill(Color(.systemBackground).opacity(0.2))
+                .shadow(color: gradient.stops.first?.color.opacity(0.4) ?? .clear, radius: 10, x: 0, y: 5)
+        )
     }
 }
 
@@ -217,9 +243,4 @@ struct SessionCard: View {
     }
 }
 
-
-#Preview {
-    ContentView()
-        .modelContainer(for: Item.self, inMemory: true)
-}
 
