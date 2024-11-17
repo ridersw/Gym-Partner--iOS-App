@@ -77,9 +77,8 @@ struct ContentView: View {
                         if !todayLogs.isEmpty {
                             Section(header: Text("Today")) {
                                 ForEach(todayLogs) { log in
-                                    NavigationLink(destination: WorkoutDetailView(item: log, logs: items)) {
                                         SessionCard(log: log, time: log.timestamp.formatted(date: .omitted, time: .shortened))
-                                    }
+                                    
                                 }
                                 .onDelete(perform: { offsets in
                                     deleteItems(offsets: offsets, from: todayLogs)
@@ -92,9 +91,8 @@ struct ContentView: View {
                         if !previousLogs.isEmpty {
                             Section(header: Text("Previous")) {
                                 ForEach(previousLogs) { log in
-                                    NavigationLink(destination: WorkoutDetailView(item: log, logs: items)) {
                                         SessionCard(log: log, time: log.timestamp.formatted(date: .abbreviated, time: .omitted))
-                                    }
+                                    
                                 }
                                 .onDelete(perform: { offsets in
                                     deleteItems(offsets: offsets, from: previousLogs)
