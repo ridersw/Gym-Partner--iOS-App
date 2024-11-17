@@ -1,0 +1,23 @@
+# Xcode specific
+*.xcuserdata
+*.xcworkspace
+DerivedData/
+build/
+*.DS_Store
+
+# CocoaPods
+Pods/
+
+# Swift Package Manager
+.swiftpm
+.build/
+
+# Certificates and Profiles
+*.mobileprovision
+*.cer
+*.p12
+*.crt
+
+# Temporary files
+*.lock
+
